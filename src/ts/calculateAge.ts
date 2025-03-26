@@ -1,20 +1,21 @@
-import { validateForm } from "./validateForm"
-import { getInputValue } from "./getInputValue"
-import { displayResult } from "./displayResult"
+import { intervalToDuration } from "date-fns";
+import { displayResult } from "./displayResult";
+import { getInputValue } from "./getInputValue";
+import { validateForm } from "./validateForm";
 
 /**
  * This function calculates a person's age based on their inputted birthdate and displays the result.
  * @returns The function does not return anything, it has a return type of `void`.
  */
 export function calculateAge(): void {
-  const currentDate = new Date()
-  const currentYear = currentDate.getFullYear()
-  const currentMonth = currentDate.getMonth() + 1
-  const currentDay = currentDate.getDate()
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentDay = currentDate.getDate();
 
-  const days = getInputValue("days")
-  const months = getInputValue("months")
-  const years = getInputValue("years")
+  const days = getInputValue("days");
+  const months = getInputValue("months");
+  const years = getInputValue("years");
 
   // Vérifier si le formulaire est valide
   if (
@@ -27,24 +28,23 @@ export function calculateAge(): void {
       currentDay: currentDay,
     })
   ) {
-    return
+    return;
   }
 
-  // Calculer l'âge
-  let ageYears = currentYear - years
-  let ageMonths = currentMonth - months
-  let ageDays = currentDay - days
+  // Créer une date pour la date de naissance
+  const birthDate = new Date(years, months - 1, days);
 
-  if (ageDays < 0) {
-    ageMonths--
-    ageDays += new Date(currentYear, currentMonth - 1, 0).getDate()
-  }
+  // Calculer l'âge avec intervalToDuration de date-fns
+  const duration = intervalToDuration({
+    start: birthDate,
+    end: currentDate,
+  });
 
-  if (ageMonths < 0) {
-    ageYears--
-    ageMonths += 12
-  }
+  // Extraire les composants de la durée
+  const ageYears = duration.years || 0;
+  const ageMonths = duration.months || 0;
+  const ageDays = duration.days || 0;
 
   // Afficher les résultats
-  displayResult(ageYears, ageMonths, ageDays)
+  displayResult(ageYears, ageMonths, ageDays);
 }
