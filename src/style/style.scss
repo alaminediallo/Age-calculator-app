@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "abstract/variables" as v;
 @use "abstract/mixin" as m;
 
@@ -10,6 +11,7 @@
 
 body {
   background-color: v.$offWhite;
+  background-image: url(../images/nnnoise-bg.svg);
 }
 
 main {
@@ -143,7 +145,7 @@ button {
 
   &:focus {
     outline-offset: 0.5px;
-    outline: 2px solid darken(v.$primary, 35%);
+    outline: 2px solid color.adjust(v.$primary, $lightness: -35%);
   }
 
   @include m.media-max(768px) {
