@@ -2,5 +2,5 @@ import { defineConfig } from "vite"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Age-calculator-app",
+  base: "/Age-calculator-app/",
 })
